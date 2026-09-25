@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TripWise | Travel Smarter</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+
+        <div class="logo">
+            <span>✈</span>
+            TripWise
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#destinations">Destinations</a>
+            <a href="#planner">Plan a Trip</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="nav-btn" onclick="goToPlanner()">
+            Plan My Trip
+        </button>
+
+    </header>
+
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+
+        <div class="hero-content">
+
+            <div class="tag">
+                ✦ SMARTER TRAVEL. BETTER EXPERIENCES.
+            </div>
+
+            <h1>
+                Your journey.
+                <br>
+                <span>Our expertise.</span>
+            </h1>
+
+            <p>
+                Discover destinations, plan personalized trips
+                and travel confidently — all with TripWise.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button
+                    class="primary-btn"
+                    onclick="goToPlanner()">
+
+                    Start Planning
+                    <span>→</span>
+
+                </button>
+
+                <button
+                    class="outline-btn"
+                    onclick="goToDestinations()">
+
+                    Explore Destinations
+
+                </button>
+
+            </div>
+
+            <div class="hero-stats">
+
+                <div>
+                    <strong>50+</strong>
+                    <small>Destinations</small>
+                </div>
+
+                <div>
+                    <strong>500+</strong>
+                    <small>Trips Planned</small>
+                </div>
+
+                <div>
+                    <strong>4.9/5</strong>
+                    <small>Customer Rating</small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="image-card">
+
+                <div class="image-overlay">
+
+                    <span>DISCOVER</span>
+
+                    <h3>
+                        Your next
+                        adventure awaits.
+                    </h3>
+
+                </div>
+
+            </div>
+
+            
+
+        </div>
+
+    </section>
+
+
+    <!-- SERVICES -->
+    <section id="services" class="section">
+
+        <div class="section-header">
+
+            <span>OUR SERVICES</span>
+
+            <h2>
+                Everything you need<br>
+                for a better journey.
+            </h2>
+
+            <p>
+                From the first idea to the final destination,
+                TripWise makes travel planning simple.
+            </p>
+
+        </div>
+
+
+        <div class="service-grid">
+
+            <div class="service-card">
+
+                <div class="service-icon">🗺️</div>
+
+                <h3>Custom Itineraries</h3>
+
+                <p>
+                    Personalized day-by-day travel plans
+                    built around your interests.
+                </p>
+
+                <a href="#planner">Learn more →</a>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">💰</div>
+
+                <h3>Budget Planning</h3>
+
+                <p>
+                    Choose a budget and get a travel plan
+                    designed around it.
+                </p>
+
+                <a href="#planner">Learn more →</a>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">🏨</div>
+
+                <h3>Stay & Transport</h3>
+
+                <p>
+                    Discover suitable accommodation and
+                    transportation options.
+                </p>
+
+                <a href="#planner">Learn more →</a>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">🌍</div>
+
+                <h3>Destination Guidance</h3>
+
+                <p>
+                    Find destinations that match your
+                    travel style and preferences.
+                </p>
+
+                <a href="#destinations">Explore →</a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DESTINATIONS -->
+    <section id="destinations" class="section destinations">
+
+        <div class="section-header destination-heading">
+
+            <span>EXPLORE THE WORLD</span>
+
+            <h2>
+                Places worth<br>
+                discovering.
+            </h2>
+
+        </div>
+
+
+        <div class="destination-grid">
+
+            <div class="destination-card large">
+
+                <div class="destination-photo goa">
+
+                    <div class="destination-info">
+
+                        <span>INDIA</span>
+
+                        <h3>Goa</h3>
+
+                        <p>
+                            Beaches • Adventure • Nightlife
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="destination-card">
+
+                <div class="destination-photo manali">
+
+                    <div class="destination-info">
+
+                        <span>INDIA</span>
+
+                        <h3>Manali</h3>
+
+                        <p>
+                            Mountains • Snow • Adventure
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="destination-card">
+
+                <div class="destination-photo rajasthan">
+
+                    <div class="destination-info">
+
+                        <span>INDIA</span>
+
+                        <h3>Rajasthan</h3>
+
+                        <p>
+                            Culture • Heritage • History
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PLANNER -->
+    <section id="planner" class="planner-section">
+
+        <div class="planner">
+
+            <div class="planner-intro">
+
+                <span>TRIPWISE PLANNER</span>
+
+                <h2>
+                    Plan your perfect
+                    trip.
+                </h2>
+
+                <p>
+                    Tell us what you're looking for.
+                    We'll help you build the right trip.
+                </p>
+
+                <div class="planner-points">
+
+                    <div>✓ Personalized planning</div>
+
+                    <div>✓ Budget-based recommendations</div>
+
+                    <div>✓ Flexible trip duration</div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SMART TRIP PLANNER -->
+<section id="planner" class="planner-section">
+
+    <div class="planner">
+
+        <div class="planner-intro">
+
+            <span>TRIPWISE SMART PLANNER</span>
+
+            <h2>
+                Your trip,
+                your way.
+            </h2>
+
+            <p>
+                Tell TripWise what you want from your journey.
+                We'll create a plan around your budget,
+                interests and travel style.
+            </p>
+
+            <div class="planner-points">
+                <div>✓ Personalized itinerary</div>
+                <div>✓ Budget-aware planning</div>
+                <div>✓ Interest-based recommendations</div>
+                <div>✓ Trip Match Score</div>
+            </div>
+
+        </div>
+
+
+        <div class="planner-form">
+
+            <!-- STARTING LOCATION -->
+
+            <label for="startLocation">
+                Starting from
+            </label>
+
+            <div class="autocomplete">
+    <input
+        id="startLocation"
+        type="text"
+        placeholder="Example: Vijayawada"
+        autocomplete="off"
+        oninput="searchStartLocation()"
+    >
+
+    <div id="start-suggestions" class="suggestions"></div>
+</div>
+
+
+            <!-- DESTINATION -->
+
+            <label for="destination">
+                Where do you want to go?
+            </label>
+
+            <div class="autocomplete">
+    <input
+        id="destination"
+        type="text"
+        placeholder="Example: Goa"
+        autocomplete="off"
+        oninput="searchDestination()"
+    >
+
+    <div id="destination-suggestions" class="suggestions"></div>
+</div>s
+
+
+            <!-- DAYS -->
+
+            <label for="days">
+                Number of days
+            </label>
+
+            <input
+                id="days"
+                type="number"
+                min="1"
+                max="30"
+                placeholder="Example: 5"
+            >
+
+
+            <!-- TRAVELERS -->
+
+            <label for="travelers">
+                Number of travelers
+            </label>
+
+            <input
+                id="travelers"
+                type="number"
+                min="1"
+                max="50"
+                placeholder="Example: 3"
+            >
+
+
+            <!-- BUDGET -->
+
+            <label>
+                Choose your budget
+            </label>
+
+            <div class="budget-options">
+
+                <button
+                    class="budget"
+                    onclick="chooseBudget(this, 'Low')">
+
+                    <span>💰</span>
+
+                    <strong>Low</strong>
+
+                    <small>Budget friendly</small>
+
+                </button>
+
+
+                <button
+                    class="budget"
+                    onclick="chooseBudget(this, 'Medium')">
+
+                    <span>💳</span>
+
+                    <strong>Medium</strong>
+
+                    <small>Balanced comfort</small>
+
+                </button>
+
+
+                <button
+                    class="budget"
+                    onclick="chooseBudget(this, 'High')">
+
+                    <span>💎</span>
+
+                    <strong>High</strong>
+
+                    <small>Premium experience</small>
+
+                </button>
+
+            </div>
+
+
+            <!-- INTERESTS -->
+
+            <label>
+                What are you interested in?
+            </label>
+
+            <div class="interest-options">
+
+                <button
+                    class="interest"
+                    onclick="toggleInterest(this, 'Beaches')">
+                    🏖️ Beaches
+                </button>
+
+                <button
+                    class="interest"
+                    onclick="toggleInterest(this, 'Adventure')">
+                    🏄 Adventure
+                </button>
+
+                <button
+                    class="interest"
+                    onclick="toggleInterest(this, 'Food')">
+                    🍜 Food
+                </button>
+
+                <button
+                    class="interest"
+                    onclick="toggleInterest(this, 'Nature')">
+                    🌿 Nature
+                </button>
+
+                <button
+                    class="interest"
+                    onclick="toggleInterest(this, 'Culture')">
+                    🏛️ Culture
+                </button>
+
+                <button
+                    class="interest"
+                    onclick="toggleInterest(this, 'Shopping')">
+                    🛍️ Shopping
+                </button>
+
+            </div>
+
+
+            <!-- TRAVEL STYLE -->
+
+            <label>
+                Travel style
+            </label>
+
+            <div class="style-options">
+
+                <button
+                    class="travel-style"
+                    onclick="chooseStyle(this, 'Relaxed')">
+                    🧘 Relaxed
+                </button>
+
+                <button
+                    class="travel-style"
+                    onclick="chooseStyle(this, 'Balanced')">
+                    ⚖️ Balanced
+                </button>
+
+                <button
+                    class="travel-style"
+                    onclick="chooseStyle(this, 'Packed')">
+                    ⚡ Packed
+                </button>
+
+            </div>
+
+
+           <!-- GENERATE -->
+
+<button
+    class="generate-btn"
+    onclick="generateTrip()">
+
+    Build My Trip
+    <span>→</span>
+
+</button>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div
+    id="planner-result"
+    class="planner-result">
+</div>
+
+</div>
+
+</section>
+<!-- TRAVEL & STAY -->
+
+<section id="travel-stay" class="travel-stay-section">
+
+    <div class="section-heading">
+
+        <span>TRAVEL & STAY</span>
+
+        <h2>
+            Complete your journey.
+        </h2>
+
+        <p>
+            Choose how you want to travel and where
+            you want to stay.
+        </p>
+
+    </div>
+
+
+    <div class="travel-stay-container">
+
+        <!-- TRAVEL -->
+
+        <div class="travel-card">
+
+            <div class="card-icon">
+                ✈️
+            </div>
+
+            <h3>How would you like to travel?</h3>
+
+            <p>
+                Select your preferred mode of transport.
+            </p>
+
+            <div class="travel-options">
+
+                <button
+                    class="travel-option"
+                    onclick="chooseTransport(this, 'Flight')">
+
+                    ✈️
+                    <strong>Flight</strong>
+
+                    <small>Fastest</small>
+
+                </button>
+
+
+                <button
+                    class="travel-option"
+                    onclick="chooseTransport(this, 'Train')">
+
+                    🚆
+                    <strong>Train</strong>
+
+                    <small>Comfortable</small>
+
+                </button>
+
+
+                <button
+                    class="travel-option"
+                    onclick="chooseTransport(this, 'Bus')">
+
+                    🚌
+                    <strong>Bus</strong>
+
+                    <small>Budget friendly</small>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- HOTEL -->
+
+        <div class="travel-card">
+
+            <div class="card-icon">
+                🏨
+            </div>
+
+            <h3>Where would you like to stay?</h3>
+
+            <p>
+                Choose the comfort level that fits your budget.
+            </p>
+
+            <div class="hotel-options">
+
+                <button
+                    class="hotel-option"
+                    onclick="chooseHotel(this, 'Budget')">
+
+                    <strong>Budget</strong>
+
+                    <small>Affordable stay</small>
+
+                </button>
+
+
+                <button
+                    class="hotel-option"
+                    onclick="chooseHotel(this, 'Standard')">
+
+                    <strong>Standard</strong>
+
+                    <small>Comfortable stay</small>
+
+                </button>
+
+
+                <button
+                    class="hotel-option"
+                    onclick="chooseHotel(this, 'Premium')">
+
+                    <strong>Premium</strong>
+
+                    <small>Luxury stay</small>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="find-options-btn"
+        onclick="findTravelOptions()">
+
+        Find Travel & Stay Options
+        <span>→</span>
+
+    </button>
+
+
+    <div
+        id="travel-stay-result"
+        class="travel-stay-result">
+    </div>
+
+</section>
+</section>   <!-- Travel & Stay -->
+
+<!-- NEW PARTNER NETWORK -->
+
+
+<!-- WHY TRIPWISE -->
+                
+
+
+        
+
+
+    <!-- WHY TRIPWISE -->
+    <section class="section why">
+
+        <div class="section-header">
+
+            <span>WHY TRIPWISE</span>
+
+            <h2>
+                Less planning.<br>
+                More exploring.
+            </h2>
+
+        </div>
+
+
+        <div class="why-grid">
+
+            <div>
+
+                <span>01</span>
+
+                <h3>Personalized</h3>
+
+                <p>
+                    Your journey is designed around
+                    your preferences.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <span>02</span>
+
+                <h3>Budget Friendly</h3>
+
+                <p>
+                    Plan experiences without losing
+                    control of your spending.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <span>03</span>
+
+                <h3>Time Saving</h3>
+
+                <p>
+                    Spend less time researching and
+                    more time enjoying.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <span>04</span>
+
+                <h3>Simple</h3>
+
+                <p>
+                    Everything you need for your trip
+                    in one place.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTACT -->
+     <section id="recommendations" class="recommendations-section">
+
+    <div class="recommendations-heading">
+        <span>TRIPWISE PICKS</span>
+        <h2>Places we recommend for your trip.</h2>
+        <p>
+            Based on your destination, budget and travel style,
+            TripWise suggests suitable hotels and travel services.
+        </p>
+    </div>
+
+    <div class="recommendation-grid">
+
+        <div class="recommendation-card">
+            <div class="recommendation-image">🏨</div>
+
+            <div class="recommendation-content">
+                <span class="recommendation-type">HOTEL</span>
+                <h3>Savage Hotel</h3>
+                <p>
+                    A comfortable stay recommended for travelers
+                    looking for a convenient location and good value.
+                </p>
+                <div class="recommendation-tags">
+                    <span>Comfort</span>
+                    <span>Good Value</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="recommendation-card">
+            <div class="recommendation-image">🚌</div>
+
+            <div class="recommendation-content">
+                <span class="recommendation-type">TRAVEL SERVICE</span>
+                <h3>Swing Travels</h3>
+                <p>
+                    A travel service option recommended for
+                    convenient transportation during your trip.
+                </p>
+                <div class="recommendation-tags">
+                    <span>Transport</span>
+                    <span>Convenient</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="recommendation-card">
+            <div class="recommendation-image">🏨</div>
+
+            <div class="recommendation-content">
+                <span class="recommendation-type">HOTEL</span>
+                <h3>TripWise Stay Pick</h3>
+                <p>
+                    Another accommodation option selected according
+                    to your trip preferences.
+                </p>
+                <div class="recommendation-tags">
+                    <span>Recommended</span>
+                    <span>Traveler Friendly</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+    <section id="contact" class="contact">
+
+        <div>
+
+            <span>READY TO TRAVEL?</span>
+
+            <h2>
+                Your next adventure
+                starts here.
+            </h2>
+
+            <p>
+                Tell us where you want to go.
+                We'll help you figure out the rest.
+            </p>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="goToPlanner()">
+
+            Plan My Trip →
+
+        </button>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="footer-top">
+
+            <div class="logo">
+                <span>✈</span>
+                TripWise
+            </div>
+
+            <p>
+                Travel smarter. Explore better.
+            </p>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <span>© 2026 TripWise</span>
+
+            <span>
+                Made for better journeys.
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
