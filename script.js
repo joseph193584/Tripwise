@@ -681,50 +681,37 @@ function chooseHotel(button, hotel) {
     button.classList.add("selected");
 }
 function findTravelOptions() {
+    const result = document.getElementById("travel-stay-result");
+    const destination = document.getElementById("destination").value.trim();
 
-    /* Check travel selection */
-
-    if (selectedTransport === "") {
-
-        const result =
-            document.getElementById("travel-stay-result");
-
-        result.innerHTML =
-            "✈️ Please choose your preferred travel option.";
-
+    if (!selectedTransport) {
+        result.innerHTML = "<p>Please choose Flight, Train or Bus.</p>";
         return;
     }
 
-
-    /* Check hotel selection */
-
-    if (selectedHotel === "") {
-
-        const result =
-            document.getElementById("travel-stay-result");
-
-        result.innerHTML =
-            "🏨 Please choose your preferred hotel type.";
-
+    if (!selectedBudget) {
+        result.innerHTML = "<p>Please choose your trip budget in the Smart Trip Planner.</p>";
         return;
     }
 
+    if (!selectedHotel) {
+        result.innerHTML = "<p>Please choose your preferred hotel type.</p>";
+        return;
+    }
 
-    /* Build main TripWise plan */
+    if (!destination) {
+        result.innerHTML = "<p>Please enter your destination in the Smart Trip Planner.</p>";
+        return;
+    }
 
-    generateTrip();
-
-
-    /* Get destination */
-
-    const destination =
-        document.getElementById("destination").value.trim();
-
-
-    /* Show recommendations */
-
+    // Show travel and stay recommendations
     showTripwiseRecommendations(destination);
 
+    // Scroll to the recommendation cards
+    document.getElementById("recommendations").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 }
 
 
@@ -904,7 +891,81 @@ const tripwiseRecommendations = {
             hotels: ["Marine Grand Resort", "Mumbai Crown Hotel"],
             travel: ["Mumbai Elite Travels", "Coastal Premium Tours"]
         }
-    }
+    },
+    "Ooty": {
+        low: {
+            hotels: ["Ooty Budget Inn", "Pine View Stay"],
+            travel: ["Ooty Hill Travels", "Nilgiri Connect"]
+        },
+        medium: {
+            hotels: ["Blue Hills Resort", "Garden Valley Hotel"],
+            travel: ["Nilgiri Travel Hub", "Mountain Ride Tours"]
+        },
+        high: {
+            hotels: ["Ooty Grand Retreat", "Cloud Nine Resort"],
+            travel: ["Nilgiri Elite Tours", "Premium Hill Travels"]
+        }
+    },
+
+    "Coorg": {
+        low: {
+            hotels: ["Coorg Green Stay", "Coffee Estate Inn"],
+            travel: ["Coorg Nature Travels", "Green Valley Tours"]
+        },
+        medium: {
+            hotels: ["Coffee Blossom Resort", "Coorg Valley Hotel"],
+            travel: ["Coorg Travel Hub", "Western Ghats Tours"]
+        },
+        high: {
+            hotels: ["Coorg Grand Resort", "Misty Hills Retreat"],
+            travel: ["Coorg Elite Tours", "Premium Nature Travels"]
+        }
+    },
+
+    "Chennai": {
+        low: {
+            hotels: ["Marina Budget Stay", "Chennai City Inn"],
+            travel: ["Chennai Connect", "Coastal City Travels"]
+        },
+        medium: {
+            hotels: ["Marina View Hotel", "Chennai Comfort Suites"],
+            travel: ["Chennai Travel Hub", "City Explorer Tours"]
+        },
+        high: {
+            hotels: ["Chennai Grand Hotel", "Ocean Crown Resort"],
+            travel: ["Chennai Elite Travels", "Coastal Premium Tours"]
+        }
+    },
+
+    "Guntur": {
+        low: {
+            hotels: ["Guntur Comfort Inn", "City Budget Stay"],
+            travel: ["Guntur Ride Travels", "City Connect Tours"]
+        },
+        medium: {
+            hotels: ["Grand Guntur Hotel", "City View Residency"],
+            travel: ["Guntur Travel Hub", "Andhra Explorer Tours"]
+        },
+        high: {
+            hotels: ["Guntur Grand Residency", "Premium City Suites"],
+            travel: ["Guntur Elite Travels", "Andhra Premium Tours"]
+        }
+    },
+
+    "Agra": {
+        low: {
+            hotels: ["Taj City Budget Stay", "Agra Comfort Inn"],
+            travel: ["Agra City Travels", "Heritage Connect"]
+        },
+        medium: {
+            hotels: ["Taj View Residency", "Heritage Garden Hotel"],
+            travel: ["Agra Travel Hub", "Taj Explorer Tours"]
+        },
+        high: {
+            hotels: ["Taj Grand Retreat", "Royal Heritage Resort"],
+            travel: ["Agra Elite Tours", "Royal Heritage Travels"]
+        }
+    },
 
 };
 
@@ -915,279 +976,551 @@ function getRandomRecommendation(list) {
 
 
 function showTripwiseRecommendations(destination) {
-
+    showTravelGroups(
+    document.getElementById("startLocation").value,
+    document.getElementById("destination").value
+);
     const section = document.getElementById("recommendations");
 
-    if (!section) return;
-
-    const data = tripwiseRecommendations[destination];
-
-    if (!data) {
-        section.style.display = "none";
+    if (!section) {
+        alert("Recommendations section not found!");
         return;
     }
 
+    const data = tripwiseRecommendations[destination];
     const budget = (selectedBudget || "medium").toLowerCase();
+
+    if (!data) {
+        section.style.display = "block";
+        section.innerHTML = `
+            <h2>Explore ${destination}</h2>
+            <p>Sorry, recommendations are not available for this destination yet.</p>
+        `;
+        section.scrollIntoView({ behavior: "smooth" });
+        return;
+    }
 
     const budgetData = data[budget] || data.medium;
 
-    const hotel1 = getRandomRecommendation(budgetData.hotels);
-
-    let hotel2 = getRandomRecommendation(budgetData.hotels);
-
-    while (hotel2 === hotel1 && budgetData.hotels.length > 1) {
-        hotel2 = getRandomRecommendation(budgetData.hotels);
+    if (!budgetData || !budgetData.hotels || !budgetData.travel) {
+        section.innerHTML = "<p>Recommendations are not available for this budget.</p>";
+        section.style.display = "block";
+        section.scrollIntoView({ behavior: "smooth" });
+        return;
     }
 
-    let travel = getRandomRecommendation(budgetData.travel);
+    const transportImages = {
+        Flight: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
+        Train: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=900&q=80",
+        Bus: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=900&q=80"
+    };
 
-    let interestText = "";
+    const hotelImages = [
+"https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80"
+];
 
-    if (selectedInterests.length > 0) {
+const hotelImage = () =>
+hotelImages[Math.floor(Math.random() * hotelImages.length)];
 
-        const interest =
-            selectedInterests[
-                Math.floor(Math.random() * selectedInterests.length)
-            ];
+    //const transport = selectedTransport || "Bus";
+    const hotels = budgetData.hotels;
+    const travel = budgetData.travel;
 
-        if (
-            budgetData.interests &&
-            budgetData.interests[interest]
-        ) {
-            travel = getRandomRecommendation(
-                budgetData.interests[interest]
-            );
+    const hotel1 = hotels[0];
+    const hotel2 = hotels[1] || hotels[0];
+    const transportNames = {
+    Bus: [
+        "APSRTC",
+        "TSRTC",
+        "Orange Travels",
+        "VRL Travels",
+        "IntrCity SmartBus",
+        "zingbus",
+        "SRS Travels",
+        "Kaveri Travels"
+    ],
+    Train: [
+        "Vande Bharat Express",
+        "Shatabdi Express",
+        "Rajdhani Express",
+        "Duronto Express",
+        "Garib Rath Express",
+        "Jan Shatabdi Express",
+        "Godavari Express",
+        "Pinakini Express"
+    ],
+    Flight: [
+        "IndiGo",
+        "Air India",
+        "Air India Express",
+        "Akasa Air",
+        "SpiceJet",
+        "Alliance Air",
+        "Emirates",
+        "Qatar Airways"
+    ]
+};
 
-            interestText =
-                `Matched with your interest in ${interest}.`;
+const transportKey = String(selectedTransport || "Bus").trim();
+const transport = {
+    bus: "Bus",
+    train: "Train",
+    flight: "Flight"
+}[transportKey.toLowerCase()] || "Bus";
+
+const transportRecommendations = {
+    Bus: [
+        {
+            name: "APSRTC",
+            description: "Explore state-run bus services for your journey.",
+            tags: ["Bus", "Road travel"]
+        },
+        {
+            name: "Orange Travels",
+            description: "Explore private intercity bus services.",
+            tags: ["Bus", "Intercity"]
+        },
+        {
+            name: "IntrCity SmartBus",
+            description: "Explore scheduled intercity bus options.",
+            tags: ["Bus", "Comfort"]
         }
-    }
+    ],
 
-    section.style.display = "block";
+    Train: [
+        {
+            name: "Vande Bharat Express",
+            description: "Explore semi-high-speed train services.",
+            tags: ["Train", "Express"]
+        },
+        {
+            name: "Rajdhani Express",
+            description: "Explore premium long-distance train services.",
+            tags: ["Train", "Long distance"]
+        },
+        {
+            name: "Shatabdi Express",
+            description: "Explore intercity express train services.",
+            tags: ["Train", "Intercity"]
+        }
+    ],
+
+    Flight: [
+        {
+            name: "IndiGo",
+            description: "Explore airline options for your destination.",
+            tags: ["Flight", "Airline"]
+        },
+        {
+            name: "Air India",
+            description: "Explore domestic and international air travel.",
+            tags: ["Flight", "Airline"]
+        },
+        {
+            name: "Akasa Air",
+            description: "Explore airline services for your journey.",
+            tags: ["Flight", "Airline"]
+        }
+    ]
+};
+
+const options = transportRecommendations[transport];
+const recommendation =
+    options[Math.floor(Math.random() * options.length)];
+
+const travelName = recommendation.name;
+const travelDescription = recommendation.description;
+const travelTags = recommendation.tags;
+function createCard(title, type, description, image, tags) {
+    const icons = {
+        HOTEL: "🏠",
+        FLIGHT: "✈️",
+        BUS: "🚌",
+        TRAIN: "🚆"
+    };
+
+    const icon = icons[type.toUpperCase()] || "🌍";
+
+    return `
+        <article class="recommendation-card">
+            <div class="recommendation-icon">
+                ${icon}
+            </div>
+
+            <img
+                class="recommendation-photo"
+                src="${image}"
+                alt="${type}"
+                loading="lazy"
+            >
+
+            <div class="recommendation-content">
+                <span class="recommendation-type">${type}</span>
+                <h3>${title}</h3>
+                <p>${description}</p>
+
+                <div class="recommendation-tags">
+                    ${tags.map(tag => `<span>${tag}</span>`).join("")}
+                </div>
+            </div>
+        </article>
+    `;
+}
 
     section.innerHTML = `
         <div class="recommendations-heading">
-
             <span>TRIPWISE PICKS</span>
-
-            <h2>
-                Places we recommend for ${destination}.
-            </h2>
-
-            <p>
-                TripWise selected these options based on your
-                destination, budget and interests.
-            </p>
-
+            <h2>Your Trip to ${destination}</h2>
+            <p>Explore travel and stay ideas for your selected budget.</p>
         </div>
 
         <div class="recommendation-grid">
+            ${createCard(
+                hotel1,
+                "HOTEL",
+                "A sample stay suggestion for your trip.",
+                hotelImage(),
+                ["Stay", budget + " budget"]
+            )}
 
-            <div class="recommendation-card">
+            ${createCard(
+                hotel2,
+                "HOTEL",
+                "Another accommodation suggestion to explore.",
+                hotelImage(),
+                ["Alternative", "Stay"]
+            )}
 
-                <div class="recommendation-image">
-                    🏨
-                </div>
-
-                <div class="recommendation-content">
-
-                    <span class="recommendation-type">
-                        HOTEL
-                    </span>
-
-                    <h3>${hotel1}</h3>
-
-                    <p>
-                        A ${budget} budget stay selected
-                        by TripWise for your trip.
-                    </p>
-
-                    <div class="recommendation-tags">
-                        <span>TripWise Pick</span>
-                        <span>${budget} Budget</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="recommendation-card">
-
-                <div class="recommendation-image">
-                    🏨
-                </div>
-
-                <div class="recommendation-content">
-
-                    <span class="recommendation-type">
-                        HOTEL
-                    </span>
-
-                    <h3>${hotel2}</h3>
-
-                    <p>
-                        Another accommodation option
-                        recommended for your journey.
-                    </p>
-
-                    <div class="recommendation-tags">
-                        <span>Recommended</span>
-                        <span>Stay</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="recommendation-card">
-
-                <div class="recommendation-image">
-                    🚌
-                </div>
-
-                <div class="recommendation-content">
-
-                    <span class="recommendation-type">
-                        TRAVEL SERVICE
-                    </span>
-
-                    <h3>${travel}</h3>
-
-                    <p>
-                        A travel service selected by TripWise
-                        for your destination.
-                    </p>
-
-                    <div class="recommendation-tags">
-                        <span>TripWise Pick</span>
-                        <span>Travel</span>
-                    </div>
-
-                </div>
-
-            </div>
-
+            ${createCard(
+                travelName,
+                transport.toUpperCase(),
+                `Explore ${transport.toLowerCase()} options for ${destination}.`,
+                transportImages[transport] || transportImages.Bus,
+                [transport, "Travel"]
+            )}
         </div>
-
-        ${
-            interestText
-                ? `<p style="text-align:center; margin-top:20px; color:#087f8c;">
-                    ✨ ${interestText}
-                   </p>`
-                : ""
-        }
     `;
 
-    section.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
+    section.style.display = "block";
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 function getRandomRecommendation(list) {
     return list[Math.floor(Math.random() * list.length)];
 }
+/* ===== TRIPWISE GROUPMATCH ===== */
 
-function showTripwiseRecommendations(destination) {
+function calculateGroupMatch() {
+const groupName = document.getElementById("groupName").value.trim();
+const budget = document.getElementById("groupBudget").value;
+const style = document.getElementById("groupStyle").value;
+const interest = document.getElementById("groupInterest").value;
+const members = Number(document.getElementById("groupMembers").value);
+const result = document.getElementById("groupmatch-result");
 
-    const section = document.getElementById("recommendations");
+if (!groupName) {
+    alert("Please enter a group name.");
+    return;
+}
 
-    if (!section) return;
+if (!Number.isInteger(members) || members < 2 || members > 50) {
+    alert("Please enter between 2 and 50 travelers.");
+    return;
+}
 
-    const data = tripwiseRecommendations[destination];
+// Demo score based on the selected settings
+const budgetPoints = {
+    Low: 30,
+    Medium: 25,
+    High: 20
+};
 
-    if (!data) {
-        section.style.display = "none";
+const stylePoints = {
+    Relaxed: 30,
+    Balanced: 25,
+    Packed: 20
+};
+
+const interestPoints = {
+    Beaches: 20,
+    Adventure: 19,
+    Nature: 18,
+    Food: 17,
+    Culture: 16,
+    Shopping: 15
+};
+
+const score = Math.min(
+    100,
+    budgetPoints[budget] +
+    stylePoints[style] +
+    interestPoints[interest]
+);
+
+let message;
+
+if (score >= 80) {
+    message = "Great starting point for planning your group trip!";
+} else if (score >= 65) {
+    message = "A good starting point. Discuss everyone's preferences before deciding.";
+} else {
+    message = "Compare everyone's preferences to find a trip that suits the group.";
+}
+
+result.innerHTML = `
+    <div class="groupmatch-icon">🤝</div>
+    <h3>${groupName}</h3>
+    <p>${members} travelers · ${budget} budget</p>
+
+    <div class="match-score">
+        ${score}<span>/100</span>
+    </div>
+
+    <p>${message}</p>
+    <p><strong>Travel style:</strong> ${style}</p>
+    <p><strong>Main interest:</strong> ${interest}</p>
+
+    <small>
+        Demo score based on selected settings.
+        It does not yet compare individual travelers.
+    </small>
+`;
+
+result.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+});
+
+}
+/* ===== TRIPWISE TRAVEL GROUPS ===== */
+
+const travelGroups = {
+    "vijayawada|goa": [
+        {
+            name: "Goa Weekend Gang",
+            members: 8,
+            description: "Beach visits, food and budget travel."
+        },
+        {
+            name: "Beach Explorers",
+            members: 5,
+            description: "Discover beaches and hidden places."
+        }
+    ],
+
+    "vijayawada|ooty": [
+        {
+            name: "Ooty Nature Lovers",
+            members: 6,
+            description: "Hills, gardens and beautiful views."
+        },
+        {
+            name: "Mountain Trip Friends",
+            members: 4,
+            description: "A relaxed hill station trip."
+        }
+    ],
+
+    "guntur|coorg": [
+        {
+            name: "Coorg Adventure Group",
+            members: 7,
+            description: "Nature, waterfalls and adventure."
+        },
+        {
+            name: "Green Escape Travelers",
+            members: 5,
+            description: "Coffee estates and scenic views."
+        }
+    ],
+
+    "vijayawada|hyderabad": [
+        {
+            name: "Hyderabad City Squad",
+            members: 9,
+            description: "Food spots, shopping and city attractions."
+        },
+        {
+            name: "Weekend Explorers",
+            members: 4,
+            description: "Explore famous places on a short trip."
+        }
+    ],
+
+    "guntur|goa": [
+        {
+            name: "Goa Budget Travelers",
+            members: 6,
+            description: "Affordable stays, beaches and local food."
+        }
+    ],
+
+    "vijayawada|chennai": [
+        {
+            name: "Chennai Beach Buddies",
+            members: 5,
+            description: "Beaches, temples and local attractions."
+        }
+    ],
+
+    "guntur|ooty": [
+        {
+            name: "Ooty Hill Station Crew",
+            members: 7,
+            description: "Cool weather, gardens and mountain views."
+        }
+    ],
+
+    "vijayawada|jaipur": [
+        {
+            name: "Jaipur Heritage Group",
+            members: 6,
+            description: "Forts, palaces and Rajasthani culture."
+        }
+    ]
+};
+
+function showTravelGroups(startLocation, destination) {
+    const container = document.getElementById("travel-group-list");
+
+    if (!container) return;
+
+    const start = startLocation.trim().toLowerCase();
+    const end = destination.trim().toLowerCase();
+
+    if (!start || !end) {
+        container.innerHTML = `
+            <p class="travel-groups-placeholder">
+                Enter your starting point and destination
+                to find travel groups.
+            </p>
+        `;
         return;
     }
-    const budget = (selectedBudget || "medium").toLowerCase();
 
-    const budgetData = data[budget] || data.medium;  
+    const key = `${start}|${end}`;
+    const groups = travelGroups[key] || [];
 
-    const hotel1 = getRandomRecommendation(budgetData.hotels);
-
-    let hotel2 = getRandomRecommendation(budgetData.hotels);
-
-    while (hotel2 === hotel1 && budgetData.hotels.length > 1) {
-        hotel2 = getRandomRecommendation(budgetData.hotels);
+    if (groups.length === 0) {
+        container.innerHTML = `
+            <p class="travel-groups-placeholder">
+                No demo groups are available for
+                ${startLocation} to ${destination} yet.
+            </p>
+        `;
+        return;
     }
 
-    const travel = getRandomRecommendation(budgetData.travel);
+    container.innerHTML = groups.map((group, index) => `
+        <div class="travel-group-card">
+            <h3>👥 ${group.name}</h3>
+            <p>${group.members} members</p>
+            <p>${group.description}</p>
 
-    section.style.display = "block";
-
-    section.innerHTML = `
-        <div class="recommendations-heading">
-            <span>TRIPWISE PICKS</span>
-            <h2>Places we recommend for ${destination}.</h2>
-            <p>
-                TripWise selected these options based on your destination
-                and trip preferences.
-            </p>
+            <button type="button"
+                onclick='openTravelChat(${JSON.stringify(key)}, ${index})'>
+                Open Chat
+            </button>
         </div>
+    `).join("");
 
-        <div class="recommendation-grid">
-
-            <div class="recommendation-card">
-                <div class="recommendation-image">🏨</div>
-
-                <div class="recommendation-content">
-                    <span class="recommendation-type">HOTEL</span>
-                    <h3>${hotel1}</h3>
-                    <p>
-                        A stay option selected by TripWise
-                        for your destination.
-                    </p>
-
-                    <div class="recommendation-tags">
-                        <span>TripWise Pick</span>
-                        <span>Stay</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="recommendation-card">
-                <div class="recommendation-image">🏨</div>
-
-                <div class="recommendation-content">
-                    <span class="recommendation-type">HOTEL</span>
-                    <h3>${hotel2}</h3>
-                    <p>
-                        Another accommodation option
-                        recommended for your trip.
-                    </p>
-
-                    <div class="recommendation-tags">
-                        <span>Recommended</span>
-                        <span>Stay</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="recommendation-card">
-                <div class="recommendation-image">🚌</div>
-
-                <div class="recommendation-content">
-                    <span class="recommendation-type">TRAVEL SERVICE</span>
-                    <h3>${travel}</h3>
-                    <p>
-                        A travel service option suggested
-                        by TripWise for your journey.
-                    </p>
-
-                    <div class="recommendation-tags">
-                        <span>TripWise Pick</span>
-                        <span>Travel</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    `;
-
-    section.scrollIntoView({
+    // Automatically scroll to the Travel Group section
+    document.getElementById("travel-groups").scrollIntoView({
         behavior: "smooth",
-        block: "center"
+        block: "start"
+    });
+}
+
+/* ===== TRAVEL GROUP CHAT FUNCTIONS ===== */
+
+function openTravelChat(destination, groupIndex) {
+const group = travelGroups[destination][groupIndex];
+
+const modal = document.getElementById("travel-chat-modal");
+const title = document.getElementById("travel-chat-title");
+const messages = document.getElementById("travel-chat-messages");
+
+title.textContent = group.name;
+messages.innerHTML = "";
+
+const welcome = document.createElement("p");
+welcome.className = "travel-chat-welcome";
+welcome.textContent = "Welcome to " + group.name + "! Start your conversation.";
+messages.appendChild(welcome);
+
+modal.style.display = "flex";
+
+document.getElementById("travel-chat-input").focus();
+
+}
+
+function closeTravelChat() {
+document.getElementById("travel-chat-modal").style.display = "none";
+}
+
+function sendTravelMessage(event) {
+event.preventDefault();
+
+const input = document.getElementById("travel-chat-input");
+const messages = document.getElementById("travel-chat-messages");
+const messageText = input.value.trim();
+
+if (messageText === "") {
+    return;
+}
+
+const welcome = messages.querySelector(".travel-chat-welcome");
+
+if (welcome) {
+    welcome.remove();
+}
+
+const message = document.createElement("div");
+message.className = "travel-chat-message";
+
+const sender = document.createElement("strong");
+sender.textContent = "You";
+
+const text = document.createElement("span");
+text.textContent = messageText;
+
+message.appendChild(sender);
+message.appendChild(text);
+messages.appendChild(message);
+
+input.value = "";
+messages.scrollTop = messages.scrollHeight;
+input.focus();
+
+}
+
+
+/* ===== TRIPWISE SIGN UP FUNCTION ===== */
+
+const signupForm = document.getElementById("signup-form");
+
+if (signupForm) {
+    signupForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("signup-name").value.trim();
+        const age = Number(document.getElementById("signup-age").value);
+
+        if (!name || !Number.isInteger(age) || age < 1 || age > 120) {
+            alert("Please enter a valid name and age.");
+            return;
+        }
+
+        const signupScreen = document.getElementById("signup-screen");
+
+        signupScreen.style.display = "none";
+
+        alert("Welcome to TripWise, " + name + "!");
     });
 }
