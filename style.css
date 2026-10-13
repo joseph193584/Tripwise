@@ -2381,3 +2381,216 @@ height: 85vh;
         padding: 22px;
     }
 }
+
+/* ===== SMALLER RECOMMENDATION PICTURES ===== */
+
+.recommendation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.recommendation-card {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e3ecea;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(20, 70, 60, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(20, 70, 60, 0.13);
+}
+
+.recommendation-photo {
+    display: block;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.recommendation-content {
+    padding: 16px;
+}
+
+.recommendation-content h3 {
+    margin: 8px 0;
+    color: #173d38;
+    font-size: 18px;
+}
+
+.recommendation-content p {
+    color: #647773;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.recommendation-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.recommendation-tags span {
+    padding: 6px 10px;
+    background: #e8f5f1;
+    color: #167969;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+
+/* ===== GROUPMATCH DESIGN ===== */
+
+.groupmatch-section {
+    padding: 60px 20px;
+    background: linear-gradient(180deg, #f2faf8, #ffffff);
+}
+
+.groupmatch-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 650px;
+    margin: 30px auto 0;
+}
+
+.groupmatch-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #dcebe7;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(22, 90, 76, 0.09);
+}
+
+.groupmatch-card h3 {
+    margin: 0 0 10px;
+    color: #174b42;
+    font-size: 22px;
+}
+
+.groupmatch-card > p {
+    color: #657773;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+.groupmatch-card label {
+    display: block;
+    margin: 18px 0 8px;
+    color: #294b45;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.groupmatch-card input,
+.groupmatch-card select {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    background: #f8fbfa;
+    border: 1px solid #d5e3df;
+    border-radius: 10px;
+    color: #263e39;
+    font: inherit;
+    outline: none;
+}
+
+.groupmatch-card input:focus,
+.groupmatch-card select:focus {
+    border-color: #168577;
+    box-shadow: 0 0 0 3px rgba(22, 133, 119, 0.12);
+}
+
+.groupmatch-card .generate-btn {
+    display: block;
+    width: 100%;
+    margin-top: 26px;
+    padding: 15px;
+    border: none;
+    border-radius: 11px;
+    background: #168577;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.groupmatch-card .generate-btn:hover {
+    background: #116b60;
+}
+
+.groupmatch-result {
+    text-align: center;
+    background: linear-gradient(145deg, #e7f7f2, #ffffff);
+    border: 1px solid #cce9df;
+}
+
+.groupmatch-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 18px;
+    background: #d4f0e7;
+    border-radius: 50%;
+    font-size: 32px;
+}
+
+.match-score {
+    margin: 22px 0;
+    color: #168577;
+    font-size: 58px;
+    font-weight: 800;
+}
+
+.match-score span {
+    color: #71817c;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.groupmatch-result > p {
+    margin-bottom: 0;
+}
+
+
+/* ===== MOBILE RESPONSIVE DESIGN ===== */
+
+@media (max-width: 700px) {
+    .recommendation-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .recommendation-photo {
+        height: 170px;
+    }
+
+    .groupmatch-section {
+        padding: 40px 16px;
+    }
+
+    .groupmatch-card {
+        padding: 22px 18px;
+    }
+
+    .groupmatch-card h3 {
+        font-size: 20px;
+    }
+
+    .match-score {
+        font-size: 48px;
+    }
+}
